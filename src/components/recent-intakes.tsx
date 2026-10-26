@@ -1,0 +1,5 @@
+'use client';
+import {useEffect,useState} from 'react';
+import {intakeRepository} from '@/lib/intake-repository';
+import type {Intake} from '@/lib/intake';
+export default function RecentIntakes(){const [items,setItems]=useState<Intake[]>([]),[error,setError]=useState('');useEffect(()=>{let active=true;intakeRepository.list().then(rows=>{if(active)setItems(rows);}).catch(()=>{if(active)setError('Não foi possível ler os formulários locais. Abra o Portal do cliente para tentar novamente.');});return()=>{active=false;};},[]);return <section className="panel gm-recent"><div><span className="eyebrow">PORTAL DO CLIENTE GM BIM</span><h2>{items.length?`${items.length} formulário(s) em preparação`:'Prepare seu primeiro projeto completo'}</h2><p>Cadastro, parâmetros, pranchas e conferência de entregas locais.</p></div><a className="button primary" href="/portal-cliente">Abrir portal</a>{error&&<p role="alert">{error}</p>}{items.slice(0,3).map(d=><a className="gm-recent-link" key={d.id} href={`/portal-cliente?draft=${d.id}`}>{d.title||'Projeto sem título'} <span>Continuar →</span></a>)}</section>;}

@@ -1,0 +1,12 @@
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+
+let client: SupabaseClient | undefined;
+export const dataMode = process.env.NEXT_PUBLIC_DATA_MODE === 'supabase' ? 'supabase' : 'demo';
+export const supabaseConfigured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY);
+export function createSupabaseBrowserClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  if (!url || !key) throw new Error('Configure a URL e a chave pública do Supabase.');
+  client ??= createClient(url, key);
+  return client;
+}
