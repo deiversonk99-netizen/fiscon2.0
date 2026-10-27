@@ -1,3 +1,7 @@
+# GM BIM — Gestão de projetos e obras
+
+Entrega operacional: [funcionalidades, ativação compartilhada e limites](docs/entrega-operacional.md). SQL adicional: [03_acesso_compartilhado_aberto.sql](supabase/03_acesso_compartilhado_aberto.sql).
+
 # GM BIM — portal 0.4
 
 Portal Next.js / TypeScript para aprovação de projetos e fiscalização de obras. O modo padrão continua sendo uma demonstração local com dados fictícios. A pedido do usuário, a integração Supabase foi preparada, mas não ativada.

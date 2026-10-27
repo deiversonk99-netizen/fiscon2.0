@@ -1,11 +1,6 @@
 import {validateDocument,validateReview,type DocumentRepository,type DocumentVersion} from './documents';
-import {openDocumentDatabase as open} from './document-db';
-async function transaction<T>(mode:IDBTransactionMode,action:(store:IDBObjectStore,done:(value:T)=>void,fail:(error:Error)=>void)=>void):Promise<T>{
- const db=await open();return new Promise((resolve,reject)=>{const tx=db.transaction('versions',mode);let result:T;let error:Error|undefined;
- tx.oncomplete=()=>{db.close();resolve(result);};tx.onabort=()=>{db.close();reject(error??new Error('Não foi possível salvar ou ler os arquivos. Verifique o espaço e as permissões do navegador.'));};
- try{action(tx.objectStore('versions'),value=>{result=value;},e=>{error=e;tx.abort();});}catch(e){error=e as Error;tx.abort();}
- });
-}
+import {dbTransaction} from './document-db';
+async function transaction<T>(mode:IDBTransactionMode,action:(store:IDBObjectStore,done:(value:T)=>void,fail:(error:Error)=>void)=>void):Promise<T>{return dbTransaction<T>(['versions'],mode,(tx,done,fail)=>action(tx.objectStore('versions'),done,fail));}
 export const localDocuments:DocumentRepository={
  list(processId){return transaction('readonly',(store,done)=>{const req=store.index('processId').getAll(processId);req.onsuccess=()=>done((req.result as DocumentVersion[]).sort((a,b)=>b.number-a.number));});},
  async upload(processId,requirementId,file){const type=await validateDocument(file);const id=crypto.randomUUID();

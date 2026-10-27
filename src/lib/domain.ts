@@ -76,3 +76,5 @@ export function parseStoredData(raw: string): PortalData {
   if (!d.processes.every((p: Process) => p && ['id','code','lotId','title','createdAt'].every(k => typeof p[k as keyof Process] === 'string') && d.lots.some((l: Lot) => l.id === p.lotId) && processStatuses.includes(p.status) && ['Construção','Reforma','Regularização'].includes(p.kind) && Array.isArray(p.disciplines) && p.disciplines.every(x => ['Arquitetônico','Estrutural'].includes(x)) && person(p.professional) && typeof p.professional.registration === 'string' && Array.isArray(p.history) && p.history.every(e => e && ['id','at','title','detail'].every(k => typeof e[k as keyof HistoryEvent] === 'string')) && (p.dueAt === null || typeof p.dueAt === 'string'))) throw new Error('Cadastro de processos inválido.');
   return d as PortalData;
 }
+
+export function createEmptyData():PortalData{return {schemaVersion:1,development:{name:'',city:'',state:'',address:''},lots:[],processes:[]};}

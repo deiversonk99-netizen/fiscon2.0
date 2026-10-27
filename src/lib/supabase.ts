@@ -12,3 +12,5 @@ export function createSupabaseBrowserClient() {
   client ??= createClient(url, key);
   return client;
 }
+
+export const sharedStorage = process.env.NEXT_PUBLIC_OPEN_STORAGE === 'supabase';

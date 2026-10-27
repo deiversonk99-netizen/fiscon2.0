@@ -7,6 +7,7 @@ import { createSupabaseBrowserClient, dataMode, supabaseConfigured } from '@/lib
 import { listWorkspaces, loadRemote, saveRemote, type Workspace } from '@/lib/remote-repository';
 import type { PortalData } from '@/lib/domain';
 import Portal from '@/components/portal';
+import OperationsPortal from '@/components/operations-portal';
 
 export default function AccessGate({accessPage=false}:{accessPage?:boolean}) {
   const [session,setSession]=useState<Session|null>(null);
@@ -73,7 +74,7 @@ export default function AccessGate({accessPage=false}:{accessPage?:boolean}) {
     }catch{setError('Não foi possível enviar o link. Confira seu e-mail, o convite e tente novamente em alguns instantes.');}
     finally{setSending(false);}
   }
-  if(!remote&&!accessPage) return <Portal/>;
+  if(!remote&&!accessPage) return <OperationsPortal/>;
   if(remote&&session&&data&&workspace) return <Portal key={`${session.user.id}:${workspace.id}`} remote={{
     initial:data,email:session.user.email??'Administrador',workspaceName:workspace.name,
     save:(before,after)=>saveRemote(createSupabaseBrowserClient(),workspace,before,after),
