@@ -1,7 +1,9 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
 let client: SupabaseClient | undefined;
-export const dataMode = process.env.NEXT_PUBLIC_DATA_MODE === 'supabase' ? 'supabase' : 'demo';
+// Public preview never exposes authenticated database records.
+export const accessMode = process.env.NEXT_PUBLIC_ACCESS_MODE === 'authenticated' ? 'authenticated' : 'open';
+export const dataMode = accessMode === 'authenticated' && process.env.NEXT_PUBLIC_DATA_MODE === 'supabase' ? 'supabase' : 'demo';
 export const supabaseConfigured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY);
 export function createSupabaseBrowserClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;

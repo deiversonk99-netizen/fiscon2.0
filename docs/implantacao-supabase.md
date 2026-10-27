@@ -1,3 +1,5 @@
+> Fase atual: acesso aberto, sem login e com dados locais por navegador. O Supabase permanece privado. Para ativar o fluxo autenticado futuramente, configure também `NEXT_PUBLIC_ACCESS_MODE=authenticated` e faça novo deploy. Empresa, empreendimento e cidade/UF podem ser informados em cada projeto; esse contexto descritivo não concede permissões no banco.
+
 # Implantar o fluxo de projetos no Supabase
 
 Supabase utiliza PostgreSQL. Este pacote não é SQL para MySQL. Nenhuma configuração ou chave veio na mensagem e nenhum projeto remoto foi alterado.
@@ -16,6 +18,7 @@ Supabase utiliza PostgreSQL. Este pacote não é SQL para MySQL. Nenhuma configu
 NEXT_PUBLIC_SUPABASE_URL=https://SEU-PROJETO.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=SUA_CHAVE_PUBLICA
 NEXT_PUBLIC_DATA_MODE=supabase
+NEXT_PUBLIC_ACCESS_MODE=authenticated
 ```
 
 ## O que foi implementado
