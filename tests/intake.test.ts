@@ -33,7 +33,7 @@ test('banco preserva anexos legados, conflitos, declarações e submissão imut�
  await localDocuments.upload(d.id,intakeRequirements(d)[0].id,pdf());assert.ok(validateIntake(d,await localDocuments.list(d.id)).some(e=>e.message.includes('arquivos mudaram')));
  assert.equal(await (await localDocuments.list(old))[0].blob.text(),'%PDF-1.4\nFixture');
  await intakeRepository.addEvent({submissionId:sub.id,item:'Prancha 1, página 1',comment:'Conferir recuo.',kind:'Pendência'});const event=(await intakeRepository.events(sub.id))[0];await intakeRepository.addEvent({submissionId:sub.id,item:event.item,comment:'Correção informada.',kind:'Resposta',parentId:event.id});assert.equal((await intakeRepository.events(sub.id)).filter(e=>e.kind==='Resolvida').length,0);
- const backup=await intakeRepository.backup();assert.ok(backup.versions.length);assert.ok(backup.submissions.length);
+ const backup=await intakeRepository.snapshot();assert.ok(backup.versions.length);assert.ok(backup.submissions.length);
 });
 test('CAD permitido somente por exigência e assinatura conhecida',async()=>{
  const cad=new File(['AC1032 fixture'], 'arquivo.dwg');await assert.rejects(validateDocument(cad));assert.equal(await validateDocument(cad,true),'application/acad');await assert.rejects(validateDocument(new File(['html'], 'arquivo.dwg'),true));

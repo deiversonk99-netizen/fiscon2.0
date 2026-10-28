@@ -17,5 +17,5 @@ export const supabaseIntakes={
  async submit(d:Intake){const issues=validateIntake(d,await remoteFiles(d.id));if(issues.length)throw new Error(issues[0].message);return workflowRpc<Submission>('gmb_submit',{p_project:d.id,p_version:d.version});},
  async events(id:string):Promise<AnalysisEvent[]>{return (await remoteEvents(id)).filter(e=>['Pendência','Conforme','Resposta','Resolvida'].includes(e.kind)) as AnalysisEvent[];},
  addEvent(input:Omit<AnalysisEvent,'id'|'at'>){return workflowRpc<void>('gmb_record',{p_input:input,p_expected:null});},
- async backup():Promise<Record<string,unknown[]>>{throw new Error('O backup remoto deve ser realizado pelo administrador no Supabase. A exportação local não inclui dados remotos.');},
+ async snapshot():Promise<Record<string,unknown[]>>{throw new Error('O backup remoto deve ser realizado pelo administrador no Supabase. A exportação local não inclui dados remotos.');},
 };

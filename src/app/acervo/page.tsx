@@ -1,2 +1,2 @@
-import Portal from '@/components/portal';
-export default function Page(){return <Portal/>;}
+import {redirect} from 'next/navigation';
+export default function Page(){redirect('/');}
